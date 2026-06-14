@@ -1,490 +1,1758 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>My Accessories Store</title>
-  <!-- Bootstrap 5 CSS + Icons + Google Fonts -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-  <style>
-    * {
-      font-family: 'Inter', sans-serif;
-    }
-    body {
-      background: #000000;
-      margin: 0;
-      padding: 0;
-      color: #f0f0f0;
-    }
-    /* dark theme overrides */
-    .bg-dark-custom {
-      background-color: #050505 !important;
-    }
-    .card-bg-dark {
-      background: #111111 !important;
-      border: 1px solid #2a2a2a;
-      transition: all 0.25s ease;
-    }
-    .card-bg-dark:hover {
-      transform: translateY(-6px);
-      border-color: #b8860b;
-      box-shadow: 0 20px 30px -12px rgba(0,0,0,0.8);
-      background: #181818 !important;
-    }
-    .product-card {
-      cursor: pointer;
-      border-radius: 20px;
-      overflow: hidden;
-      transition: 0.2s;
-    }
-    .category-btn {
-      background: transparent;
-      border: 1px solid #333;
-      color: #ddd;
-      font-weight: 500;
-      padding: 8px 20px;
-      border-radius: 40px;
-      margin: 5px 6px;
-      transition: all 0.2s;
-      font-size: 0.85rem;
-      letter-spacing: 0.3px;
-    }
-    .category-btn:hover, .category-btn.active {
-      background: #b8860b;
-      border-color: #b8860b;
-      color: #000000;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
-    }
-    .navbar-brand-custom {
-      font-weight: 800;
-      font-size: 2rem;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #e4c580, #b8860b);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .gold-text {
-      color: #d4af37;
-    }
-    .price-tag {
-      font-weight: 700;
-      font-size: 1.4rem;
-      color: #f5c542;
-    }
-    .section-title {
-      border-left: 5px solid #d4af37;
-      padding-left: 18px;
-      margin-bottom: 28px;
-      font-weight: 700;
-    }
-    .modal-content-custom {
-      background: #0f0f0f;
-      border: 1px solid #2c2c2c;
-      border-radius: 28px;
-      color: white;
-    }
-    .btn-whatsapp {
-      background-color: #25D366;
-      border: none;
-      font-weight: 600;
-      padding: 12px 0;
-      border-radius: 50px;
-      color: #000;
-      transition: 0.2s;
-    }
-    .btn-whatsapp:hover {
-      background-color: #20b859;
-      transform: scale(1.02);
-      color: #000;
-      box-shadow: 0 6px 14px rgba(37, 211, 102, 0.3);
-    }
-    footer {
-      background: #030303;
-      border-top: 1px solid #222;
-    }
-    .img-placeholder {
-      background: #1e1e1e;
-      object-fit: cover;
-      width: 100%;
-      height: 220px;
-      transition: 0.2s;
-    }
-    .badge-cat {
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(4px);
-      font-size: 0.7rem;
-      padding: 4px 10px;
-      border-radius: 20px;
-    }
-    .card-title {
-      font-weight: 700;
-      font-size: 1.1rem;
-    }
-    hr {
-      opacity: 0.3;
-    }
-    .footer-link {
-      color: #aaa;
-      text-decoration: none;
-      transition: 0.2s;
-    }
-    .footer-link:hover {
-      color: #d4af37;
-    }
-    .social-icon {
-      background: #1e1e1e;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      transition: 0.2s;
-      color: #ccc;
-    }
-    .social-icon:hover {
-      background: #d4af37;
-      color: #000;
-      transform: translateY(-3px);
-    }
-    /* Navbar custom styles */
-    .nav-categories-wrapper {
-      background: #0a0a0a;
-      border-radius: 60px;
-      padding: 6px 12px;
-      border: 1px solid #222;
-    }
-    .navbar-toggler-custom {
-      background: #1a1a1a;
-      border: 1px solid #b8860b;
-      color: #d4af37;
-    }
-    .nav-link-custom {
-      color: #ccc;
-      transition: 0.2s;
-      font-weight: 500;
-    }
-    .nav-link-custom:hover {
-      color: #d4af37;
-    }
-    @media (max-width: 991px) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>
+      MY Accessories Store - Full Category + Product CRUD with Gallery Upload
+    </title>
+    <!-- Bootstrap 5 CSS + Icons + Google Fonts -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: "Inter", sans-serif;
+      }
+      @media (max-width: 991px) {
+        .category-scroll {
+          overflow-x: hidden;
+          overflow-y: auto;
+          max-height: 300px; /* apni zarurat ke mutabiq */
+        }
+
+        .category-scroll.d-flex {
+          flex-direction: column;
+          flex-wrap: nowrap;
+          width: 100%;
+        }
+
+        .category-btn {
+          width: 100%;
+          text-align: left;
+        }
+      }
+
       .category-scroll {
-        margin-top: 1rem;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .category-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .modal-product-image {
+        width: 100%;
+        max-height: 350px;
+        object-fit: cover;
+      }
+
+      .card-title {
+        word-break: break-word;
+      }
+      body {
+        background: #000000;
+        margin: 0;
+        padding: 0;
+        color: #f0f0f0;
+      }
+      .bg-dark-custom {
+        background-color: #050505 !important;
+      }
+      .card-bg-dark {
+        background: #111111 !important;
+        border: 1px solid #2a2a2a;
+        transition: all 0.25s ease;
+      }
+      .card-bg-dark:hover {
+        transform: translateY(-6px);
+        border-color: #b8860b;
+        box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.8);
+        background: #181818 !important;
+      }
+      .product-card {
+        cursor: pointer;
+        border-radius: 20px;
+        overflow: hidden;
+        transition: 0.2s;
+      }
+      .category-btn {
+        background: transparent;
+        border: 1px solid #333;
+        color: #ddd;
+        font-weight: 500;
+        padding: 8px 20px;
+        border-radius: 40px;
+        margin: 5px 6px;
+        transition: all 0.2s;
+        font-size: 0.85rem;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+      }
+      .category-btn:hover,
+      .category-btn.active {
+        background: #b8860b;
+        border-color: #b8860b;
+        color: #000000;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
+      }
+      .navbar-brand-custom {
+        font-weight: 800;
+        font-size: 2rem;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #e4c580, #b8860b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+      .gold-text {
+        color: #d4af37;
+      }
+      .price-tag {
+        font-weight: 700;
+        font-size: 1.4rem;
+        color: #f5c542;
+      }
+      .section-title {
+        border-left: 5px solid #d4af37;
+        padding-left: 18px;
+        margin-bottom: 28px;
+        font-weight: 700;
+      }
+      .modal-content-custom {
+        background: #0f0f0f;
+        border: 1px solid #2c2c2c;
+        border-radius: 28px;
+        color: white;
+      }
+      .btn-whatsapp {
+        background-color: #25d366;
+        border: none;
+        font-weight: 600;
+        padding: 12px 0;
+        border-radius: 50px;
+        color: #000;
+        transition: 0.2s;
+      }
+      .btn-whatsapp:hover {
+        background-color: #20b859;
+        transform: scale(1.02);
+        color: #000;
+        box-shadow: 0 6px 14px rgba(37, 211, 102, 0.3);
+      }
+      footer {
+        background: #030303;
+        border-top: 1px solid #222;
+      }
+      .img-placeholder {
+        background: #1e1e1e;
+        object-fit: cover;
+        width: 100%;
+        height: 220px;
+        transition: 0.2s;
+      }
+      .badge-cat {
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        font-size: 0.7rem;
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+      .card-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+      hr {
+        opacity: 0.3;
+      }
+      .footer-link {
+        color: #aaa;
+        text-decoration: none;
+        transition: 0.2s;
+      }
+      .footer-link:hover {
+        color: #d4af37;
+      }
+      .social-icon {
+        background: #1e1e1e;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        transition: 0.2s;
+        color: #ccc;
+      }
+      .social-icon:hover {
+        background: #d4af37;
+        color: #000;
+        transform: translateY(-3px);
       }
       .nav-categories-wrapper {
-        background: transparent;
-        border: none;
-        padding: 0;
+        background: #0a0a0a;
+        border-radius: 60px;
+        padding: 6px 12px;
+        border: 1px solid #222;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 4px;
       }
-    }
-  </style>
-</head>
-<body style="background:#000000">
+      .navbar-toggler-custom {
+        background: #1a1a1a;
+        border: 1px solid #b8860b;
+        color: #d4af37;
+      }
+      .nav-link-custom {
+        color: #ccc;
+        transition: 0.2s;
+        font-weight: 500;
+      }
+      .nav-link-custom:hover {
+        color: #d4af37;
+      }
+      .admin-btn {
+        background: #1f1f1f;
+        border: 1px solid #d4af37;
+        color: #d4af37;
+        border-radius: 40px;
+        padding: 6px 18px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.2s;
+      }
+      .admin-btn:hover {
+        background: #d4af37;
+        color: #000;
+        border-color: #d4af37;
+      }
+      .crud-icon {
+        cursor: pointer;
+        transition: 0.2s;
+        opacity: 0.7;
+      }
+      .crud-icon:hover {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+      .form-control-custom {
+        background: #1e1e1e;
+        border: 1px solid #333;
+        color: white;
+      }
+      .form-control-custom:focus {
+        background: #252525;
+        color: white;
+        border-color: #d4af37;
+        box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+      }
+      .floating-add-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        z-index: 1000;
+        background: #d4af37;
+        color: #000;
+        border-radius: 60px;
+        padding: 14px 24px;
+        font-weight: bold;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+        border: none;
+        transition: 0.2s;
+      }
+      .floating-add-btn:hover {
+        background: #e4c580;
+        transform: scale(1.05);
+        color: #000;
+      }
+      @media (max-width: 991px) {
+        .category-scroll {
+          margin-top: 1rem;
+        }
+        .nav-categories-wrapper {
+          background: transparent;
+          border: none;
+          padding: 0;
+        }
+        .floating-add-btn {
+          bottom: 20px;
+          right: 20px;
+          padding: 10px 18px;
+          font-size: 0.9rem;
+        }
+        .category-btn {
+          font-size: 0.75rem;
+          padding: 6px 14px;
+        }
+      }
+      .verified-badge {
+        background: #1f3a1f;
+        color: #2ecc71;
+        border-radius: 30px;
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        margin-left: 12px;
+      }
+      .upload-area {
+        border: 2px dashed #444;
+        border-radius: 16px;
+        padding: 12px;
+        text-align: center;
+        transition: 0.2s;
+        cursor: pointer;
+        background: #111;
+      }
+      .upload-area:hover {
+        border-color: #d4af37;
+        background: #1a1a1a;
+      }
+      .image-preview-circle {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 16px;
+        border: 2px solid #d4af37;
+        background: #1a1a1a;
+      }
+      .category-manager-btn {
+        background: #2a2a2a;
+        border: none;
+        color: #d4af37;
+        border-radius: 40px;
+        padding: 4px 12px;
+        font-size: 0.7rem;
+        margin-left: 8px;
+        transition: 0.2s;
+      }
+      .category-manager-btn:hover {
+        background: #d4af37;
+        color: #000;
+      }
+      .category-item-badge {
+        background: #1e1e1e;
+        border: 1px solid #444;
+        border-radius: 40px;
+        padding: 5px 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px;
+      }
+      .delete-cat-icon {
+        cursor: pointer;
+        color: #ff6b6b;
+        font-size: 0.8rem;
+        transition: 0.2s;
+      }
+      .delete-cat-icon:hover {
+        color: #ff0000;
+        transform: scale(1.1);
+      }
+      @media (max-width: 576px) {
+        .navbar-brand-custom {
+          font-size: 1.5rem !important;
+        }
 
-<div id="root"></div>
+        .section-title {
+          font-size: 1.3rem !important;
+        }
 
-<!-- React & ReactDOM & Babel -->
-<script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+        .price-tag {
+          font-size: 1.1rem !important;
+        }
 
-<script type="text/babel">
-  // ---------- CONFIGURATION ----------
-  // Replace with your actual WhatsApp number (international format without '+' or with '+')
-  const WHATSAPP_NUMBER = "923001234567";   // Pakistan demo number, change to your own
-  // -----------------------------------
+        .floating-add-btn {
+          bottom: 15px;
+          right: 15px;
+          padding: 10px 14px;
+          font-size: 12px;
+        }
 
-  // ---------- PRODUCT DATA (Men's accessories) ----------
-  // Categories exactly from screenshot: BRACELET, PENDANT, EARRINGS, BINDS, BANDLES, NECKLACE, PIERCING SERVICES, FRAGRANCES
-  const productsData = [
-    { id: 1, name: "Warrior Leather Bracelet", category: "BRACELET", price: 1500, image: "https://picsum.photos/id/20/400/300", description: "Handcrafted genuine leather with steel clasp" },
-    { id: 2, name: "Onyx Pendant Necklace", category: "BRACELET", price: 1500, image: "https://picsum.photos/id/26/400/300", description: "Black onyx stone, modern masculine style" },
-    { id: 3, name: "Stealth Hoop Earrings", category: "EARRINGS", price: 1500, image: "https://picsum.photos/id/29/400/300", description: "Matte black hoops, surgical steel" },
-    { id: 4, name: "Carbon Fiber Ring", category: "EARRINGS", price: 1500, image: "https://picsum.photos/id/36/400/300", description: "Ultra-light carbon fiber ring, comfort fit" },
-    { id: 5, name: "Interlocking Bangle Set", category: "NECKLACE", price: 1500, image: "https://picsum.photos/id/42/400/300", description: "Set of 2 premium bangles, brushed finish" },
-    { id: 6, name: "Cuban Chain Necklace", category: "NECKLACE", price: 1500, image: "https://picsum.photos/id/59/400/300", description: "Heavy curb chain, 18k gold plated" },
-    { id: 7, name: "Ear Piercing Studio Service", category: "FRAGRANCES", price: 1500, image: "https://picsum.photos/id/64/400/300", description: "Professional piercing with sterilized equipment" },
-    { id: 8, name: "Oud Noir Fragrance", category: "FRAGRANCES", price: 1500, image: "https://picsum.photos/id/82/400/300", description: "Woody, smoky scent, 50ml EDP" },
-    { id: 9, name: "Titanium ID Bracelet", category: "BRACELET", price: 1500, image: "https://picsum.photos/id/96/400/300", description: "Engravable titanium with carbon accents" },
-    { id: 10, name: "Arrowhead Pendant", category: "NECKLACE", price: 1500, image: "https://picsum.photos/id/124/400/300", description: "Vintage silver arrowhead, leather cord" },
-    { id: 11, name: "Hex Screw Earrings", category: "EARRINGS", price: 1500, image: "https://picsum.photos/id/127/400/300", description: "Industrial design, black steel" },
-    { id: 12, name: "Tungsten Carbide Ring", category: "FRAGRANCES", price: 1500, image: "https://picsum.photos/id/133/400/300", description: "Scratch-resistant, dome profile" },
-    { id: 13, name: "Leather Wrap Bandle", category: "EARRINGS", price: 1500, image: "https://picsum.photos/id/143/400/300", description: "Braided leather & magnetic closure" },
-    { id: 14, name: "Snake Chain Necklace", category: "NECKLACE", price: 1500, image: "https://picsum.photos/id/155/400/300", description: "Silver snake chain, 20 inches" },
-    { id: 15, name: "Premium Cologne - Amber", category: "FRAGRANCES", price: 1500, image: "https://picsum.photos/id/169/400/300", description: "Long lasting aromatic fougère" }
-  ];
+        .card-title {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
 
-  // Category list from screenshot + All
-  const categoryList = ["ALL", "BRACELET", "EARRINGS", "NECKLACE", "FRAGRANCES"];
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
 
-  // Main App Component
-  const App = () => {
-    const [selectedCategory, setSelectedCategory] = React.useState("ALL");
-    const [modalVisible, setModalVisible] = React.useState(false);
-    const [selectedProduct, setSelectedProduct] = React.useState(null);
-    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+    <script type="text/babel">
+      // ---------- CONFIGURATION ----------
+      const WHATSAPP_NUMBER = "923704931949";
+      let VERIFIED_EMAILS = JSON.parse(
+        localStorage.getItem("verified_emails"),
+      ) || ["shayanirshad123s@gmail.com"];
 
-    // Filter products based on category
-    const filteredProducts = React.useMemo(() => {
-      if (selectedCategory === "ALL") return productsData;
-      return productsData.filter(product => product.category === selectedCategory);
-    }, [selectedCategory]);
+      // ---------- PERSISTENCE KEYS ----------
+      const STORAGE_KEY_PRODUCTS = "my_accessories_products_v6";
+      const STORAGE_KEY_CATEGORIES = "my_accessories_categories_v2";
 
-    // Handle product click -> open WhatsApp inquiry modal
-    const handleProductClick = (product) => {
-      setSelectedProduct(product);
-      setModalVisible(true);
-    };
+      // Default categories
+      const DEFAULT_CATEGORIES = ["MEN BRACELET", "WOMEN BRACELET", "RINGS"];
 
-    // Generate WhatsApp link with pre-filled message
-    const getWhatsAppLink = () => {
-      if (!selectedProduct) return "#";
-      const message = `Hello AMX! I'm interested in *${selectedProduct.name}* (₨${selectedProduct.price.toLocaleString()}). Please share more details & availability.`;
-      const encodedMsg = encodeURIComponent(message);
-      return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
-    };
+      const INITIAL_PRODUCTS = [
+        {
+          id: 1,
+          name: "Warrior Leather Bracelet",
+          category: "MEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/20/400/300",
+          description:
+            "Handcrafted genuine leather with steel clasp. Durable and stylish for everyday wear.",
+        },
+        {
+          id: 2,
+          name: "Onyx Pendant Necklace",
+          category: "MEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/26/400/300",
+          description:
+            "Black onyx stone, modern masculine style. Perfect for formal events.",
+        },
+        {
+          id: 3,
+          name: "Stealth Hoop Earrings",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/29/400/300",
+          description:
+            "Matte black hoops, surgical steel. Hypoallergenic and lightweight.",
+        },
+        {
+          id: 4,
+          name: "Carbon Fiber Ring",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/36/400/300",
+          description:
+            "Ultra-light carbon fiber ring, comfort fit. Scratch-resistant finish.",
+        },
+        {
+          id: 5,
+          name: "Interlocking Bangle Set",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/42/400/300",
+          description:
+            "Set of 2 premium bangles, brushed finish. Adjustable size.",
+        },
+        {
+          id: 6,
+          name: "Cuban Chain Necklace",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/59/400/300",
+          description:
+            "Heavy curb chain, 18k gold plated. Iconic hip-hop style.",
+        },
+        {
+          id: 7,
+          name: "Ear Piercing Studio Service",
+          category: "WOMEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/64/400/300",
+          description:
+            "Professional piercing with sterilized equipment. Safe & hygienic.",
+        },
+        {
+          id: 8,
+          name: "Oud Noir Fragrance",
+          category: "WOMEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/82/400/300",
+          description:
+            "Woody, smoky scent, 50ml EDP. Long lasting premium attar.",
+        },
+        {
+          id: 9,
+          name: "Titanium ID Bracelet",
+          category: "MEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/96/400/300",
+          description:
+            "Engravable titanium with carbon accents. Lightweight and strong.",
+        },
+        {
+          id: 10,
+          name: "Arrowhead Pendant",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/124/400/300",
+          description:
+            "Vintage silver arrowhead, leather cord. Rugged boho look.",
+        },
+        {
+          id: 11,
+          name: "Hex Screw Earrings",
+          category: "MEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/127/400/300",
+          description:
+            "Industrial design, black steel. Unique geometric shape.",
+        },
+        {
+          id: 12,
+          name: "Tungsten Carbide Ring",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/133/400/300",
+          description:
+            "Scratch-resistant, dome profile. Perfect wedding band alternative.",
+        },
+        {
+          id: 13,
+          name: "Leather Wrap Band",
+          category: "WOMEN BRACELET",
+          price: 1500,
+          image: "https://picsum.photos/id/143/400/300",
+          description: "Braided leather & magnetic closure. One size fits all.",
+        },
+        {
+          id: 14,
+          name: "Snake Chain Necklace",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/155/400/300",
+          description: "Silver snake chain, 20 inches. Elegant and shiny.",
+        },
+        {
+          id: 15,
+          name: "Premium Cologne - Amber",
+          category: "RINGS",
+          price: 1500,
+          image: "https://picsum.photos/id/169/400/300",
+          description:
+            "Long lasting aromatic fougère with hints of musk and vanilla.",
+        },
+      ];
 
-    const closeModal = () => {
-      setModalVisible(false);
-      setSelectedProduct(null);
-    };
+      function loadCategories() {
+        const stored = localStorage.getItem(STORAGE_KEY_CATEGORIES);
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {
+            return [...DEFAULT_CATEGORIES];
+          }
+        } else {
+          localStorage.setItem(
+            STORAGE_KEY_CATEGORIES,
+            JSON.stringify(DEFAULT_CATEGORIES),
+          );
+          return [...DEFAULT_CATEGORIES];
+        }
+      }
 
-    // Category filter buttons component (reused in navbar)
-    const CategoryFilters = () => (
-      <div className="category-scroll d-flex flex-nowrap flex-lg-wrap justify-content-start" style={{ gap: "4px" }}>
-        {categoryList.map((cat) => (
-          <button
-            key={cat}
-            className={`category-btn ${selectedCategory === cat ? 'active' : ''}`}
-            onClick={() => setSelectedCategory(cat)}
-          >
-            {cat === "PIERCING SERVICES" ? "PIERCING" : cat}
-          </button>
-        ))}
-      </div>
-    );
+      function saveCategoriesToLocalStorage(categories) {
+        localStorage.setItem(
+          STORAGE_KEY_CATEGORIES,
+          JSON.stringify(categories),
+        );
+      }
 
-    return (
-      <div style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
-        {/* ========== NEW PROFESSIONAL NAVBAR WITH LOGO + CATEGORIES ========== */}
-        <nav className="navbar navbar-expand-lg sticky-top" style={{ background: "#010101", borderBottom: "1px solid #222", padding: "0.5rem 0" }}>
-          <div className="container">
-            {/* Logo / Brand */}
-            <a className="navbar-brand d-flex align-items-center gap-2" href="#" style={{ textDecoration: "none" }}>
-              <span className="navbar-brand-custom display-6 fw-bold" style={{ fontSize: "1.9rem" }}><i >MY</i></span>
-              <span style={{ height: "30px", width: "1px", background: "#333", margin: "0 5px" }}></span>
-              <span className="text-white-50 fw-light" style={{ fontSize: "0.9rem", letterSpacing: "1px" }}>ACCESSORIES STORE</span>
-            </a>
+      function loadProducts() {
+        const stored = localStorage.getItem(STORAGE_KEY_PRODUCTS);
+        if (stored) {
+          try {
+            return JSON.parse(stored);
+          } catch (e) {
+            return INITIAL_PRODUCTS;
+          }
+        } else {
+          localStorage.setItem(
+            STORAGE_KEY_PRODUCTS,
+            JSON.stringify(INITIAL_PRODUCTS),
+          );
+          return INITIAL_PRODUCTS;
+        }
+      }
 
-            {/* Mobile Toggle Button */}
-            <button 
-              className="navbar-toggler navbar-toggler-custom" 
-              type="button" 
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              style={{ background: "#111", border: "1px solid #b8860b", borderRadius: "12px", padding: "8px 12px" }}
-            >
-              <i className={`bi ${mobileMenuOpen ? 'bi-x-lg' : 'bi-grid-3x3-gap-fill'} gold-text`}></i>
-            </button>
+      function saveProductsToLocalStorage(products) {
+        localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
+      }
 
-            {/* Collapsible content */}
-            <div className={`collapse navbar-collapse ${mobileMenuOpen ? 'show' : ''}`} style={{ transition: "all 0.3s" }}>
-              {/* Category Filters - integrated inside navbar */}
-              <div className="nav-categories-wrapper ms-lg-4 flex-grow-1">
-                <CategoryFilters />
-              </div>
-              
-              {/* Additional Nav Icons / Actions */}
-              <div className="d-flex gap-3 mt-3 mt-lg-0 ms-lg-3">
-                <a href="#" className="nav-link-custom" style={{ fontSize: "1.2rem" }}><i className="bi bi-search"></i></a>
-                <a href="#" className="nav-link-custom" style={{ fontSize: "1.2rem" }}><i className="bi bi-person"></i></a>
-                <a href="https://wa.me/923001234567" target="_blank" className="nav-link-custom" style={{ fontSize: "1.2rem", color: "#25D366" }}><i className="bi bi-whatsapp"></i></a>
-              </div>
-            </div>
-          </div>
-        </nav>
+      const fileToDataURL = (file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (error) => reject(error);
+          reader.readAsDataURL(file);
+        });
+      };
 
-      
+      const App = () => {
+        const [products, setProducts] = React.useState(loadProducts());
+        const [categories, setCategories] = React.useState(loadCategories());
+        const [selectedCategory, setSelectedCategory] = React.useState("ALL");
+        const [detailModalVisible, setDetailModalVisible] =
+          React.useState(false);
+        const [selectedProduct, setSelectedProduct] = React.useState(null);
+        const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+        const [searchTerm, setSearchTerm] = React.useState("");
+        const [showSearch, setShowSearch] = React.useState(false);
 
-        {/* LATEST COLLECTION Section */}
-        <div className="container mt-4 mb-2">
-          <div className="d-flex justify-content-between align-items-center flex-wrap">
-            <h2 className="section-title text-white fs-2 fw-bold mb-0">⚡ LATEST COLLECTION</h2>
-            <p className="text-secondary small mb-0">{filteredProducts.length} premium items</p>
-          </div>
-          <hr className="mt-2 mb-4" style={{ background: "#333" }} />
-        </div>
+        // ADMIN AUTH
+        const [isAdminLoggedIn, setIsAdminLoggedIn] = React.useState(false);
+        const [adminEmail, setAdminEmail] = React.useState("");
+        const [showAdminLoginModal, setShowAdminLoginModal] =
+          React.useState(false);
+        const [loginEmailInput, setLoginEmailInput] = React.useState("");
+        const [loginError, setLoginError] = React.useState("");
 
-        {/* Product Grid - Responsive Bootstrap Row */}
-        <div className="container pb-5">
-          <div className="row g-4">
-            {filteredProducts.length === 0 ? (
-              <div className="col-12 text-center py-5">
-                <i className="bi bi-emoji-frown fs-1 text-secondary"></i>
-                <p className="mt-3 text-secondary">No items in this category. Explore others!</p>
-              </div>
-            ) : (
-              filteredProducts.map((product) => (
-                <div key={product.id} className="col-12 col-sm-6 col-md-4 col-lg-3">
-                  <div className="card product-card card-bg-dark h-100 border-0 rounded-4" onClick={() => handleProductClick(product)}>
-                    <img 
-                      src={product.image} 
-                      className="card-img-top img-placeholder rounded-top-4" 
-                      alt={product.name}
-                      loading="lazy"
-                      style={{ objectFit: "cover", height: "220px" }}
-                    />
-                    <div className="card-body d-flex flex-column">
-                      <div className="d-flex justify-content-between align-items-start">
-                        <span className="badge bg-dark badge-cat gold-text border border-secondary px-2 py-1 mb-2">{product.category}</span>
-                      </div>
-                      <h5 className="card-title text-white mt-1">{product.name}</h5>
-                      <p className="card-text text-secondary small mb-2">{product.description.substring(0, 55)}...</p>
-                      <div className="mt-auto d-flex justify-content-between align-items-center pt-2">
-                        <span className="price-tag fw-bold">₨ {product.price.toLocaleString()}</span>
-                        <i className="bi bi-whatsapp text-success fs-5"></i>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))
+        // CRUD Modal State for Products
+        const [crudModalOpen, setCrudModalOpen] = React.useState(false);
+        const [editingProduct, setEditingProduct] = React.useState(null);
+        const [formData, setFormData] = React.useState({
+          name: "",
+          category: categories[0] || "MEN BRACELET",
+          price: "",
+          image: "https://picsum.photos/id/1/400/300",
+          description: "",
+        });
+        const [isAdding, setIsAdding] = React.useState(false);
+        const [uploadingImage, setUploadingImage] = React.useState(false);
+
+        // Category Management Modal
+        const [showCategoryModal, setShowCategoryModal] = React.useState(false);
+        const [newCategoryName, setNewCategoryName] = React.useState("");
+        const [categoryError, setCategoryError] = React.useState("");
+
+        const categoryList = ["ALL", ...categories];
+
+        const filteredProducts = React.useMemo(() => {
+          return products.filter((product) => {
+            const categoryMatch =
+              selectedCategory === "ALL" ||
+              product.category === selectedCategory;
+
+            const searchMatch =
+              product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+              product.description
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase()) ||
+              product.category.toLowerCase().includes(searchTerm.toLowerCase());
+
+            return categoryMatch && searchMatch;
+          });
+        }, [selectedCategory, products, searchTerm]);
+
+        // Auto-reassign products if a category is removed
+        React.useEffect(() => {
+          const validCategoriesSet = new Set(categories);
+          let updated = false;
+          const newProducts = products.map((p) => {
+            if (!validCategoriesSet.has(p.category) && categories.length > 0) {
+              updated = true;
+              return { ...p, category: categories[0] };
+            }
+            return p;
+          });
+          if (updated) {
+            setProducts(newProducts);
+            saveProductsToLocalStorage(newProducts);
+          }
+        }, [categories]);
+
+        // ---------- ADMIN LOGIN ----------
+        const promptAdminLogin = () => setShowAdminLoginModal(true);
+        const handleAdminLoginSubmit = (e) => {
+          e.preventDefault();
+          const email = loginEmailInput.trim().toLowerCase();
+          if (VERIFIED_EMAILS.includes(email)) {
+            setIsAdminLoggedIn(true);
+            setAdminEmail(email);
+            setShowAdminLoginModal(false);
+            setLoginEmailInput("");
+            setLoginError("");
+          } else {
+            setLoginError("❌ Access Denied. Use verified email");
+          }
+        };
+        const handleLogout = () => {
+          setIsAdminLoggedIn(false);
+          setAdminEmail("");
+          setCrudModalOpen(false);
+          setShowCategoryModal(false);
+        };
+
+        // ---------- GALLERY UPLOAD ----------
+        const fileInputRef = React.useRef(null);
+        const triggerGallery = () => fileInputRef.current?.click();
+        const handleImageUpload = async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          if (!file.type.startsWith("image/")) {
+            alert("❌ Please select an image file");
+            return;
+          }
+          if (file.size > 2 * 1024 * 1024) {
+            alert("❌ Max size 2MB");
+            return;
+          }
+          setUploadingImage(true);
+          try {
+            const base64Image = await fileToDataURL(file);
+            setFormData((prev) => ({ ...prev, image: base64Image }));
+          } catch (err) {
+            alert("Upload failed");
+          } finally {
+            setUploadingImage(false);
+          }
+        };
+
+        // ---------- PRODUCT CRUD ----------
+        const openAddProductModal = () => {
+          if (!isAdminLoggedIn) {
+            promptAdminLogin();
+            return;
+          }
+          if (categories.length === 0) {
+            alert(
+              "⚠️ Please add at least one category first via Manage Categories.",
+            );
+            return;
+          }
+          setIsAdding(true);
+          setEditingProduct(null);
+          setFormData({
+            name: "",
+            category: categories[0],
+            price: "",
+            image: "https://picsum.photos/id/1/400/300",
+            description: "",
+          });
+          setCrudModalOpen(true);
+        };
+        const openEditProductModal = (product) => {
+          if (!isAdminLoggedIn) {
+            promptAdminLogin();
+            return;
+          }
+          setIsAdding(false);
+          setEditingProduct(product);
+          setFormData({ ...product });
+          setCrudModalOpen(true);
+        };
+        const handleFormChange = (e) => {
+          const { name, value } = e.target;
+          setFormData((prev) => ({ ...prev, [name]: value }));
+        };
+        const saveProduct = () => {
+          if (!isAdminLoggedIn) {
+            promptAdminLogin();
+            return;
+          }
+          if (!formData.name.trim()) {
+            alert("Product name required");
+            return;
+          }
+          if (!formData.price || parseFloat(formData.price) <= 0) {
+            alert("Valid price required");
+            return;
+          }
+          if (!formData.image.trim()) {
+            alert("Image required");
+            return;
+          }
+          if (!formData.description.trim()) {
+            alert("Description required");
+            return;
+          }
+          const priceNum = parseFloat(formData.price);
+          if (isAdding) {
+            const newId =
+              products.length > 0
+                ? Math.max(...products.map((p) => p.id)) + 1
+                : 1;
+            const newProduct = {
+              id: newId,
+              name: formData.name.trim(),
+              category: formData.category,
+              price: priceNum,
+              image: formData.image.trim(),
+              description: formData.description.trim(),
+            };
+            const updated = [...products, newProduct];
+            setProducts(updated);
+            saveProductsToLocalStorage(updated);
+            alert(`✅ "${newProduct.name}" added permanently!`);
+          } else {
+            const updated = products.map((p) =>
+              p.id === editingProduct.id
+                ? {
+                    ...p,
+                    name: formData.name.trim(),
+                    category: formData.category,
+                    price: priceNum,
+                    image: formData.image.trim(),
+                    description: formData.description.trim(),
+                  }
+                : p,
+            );
+            setProducts(updated);
+            saveProductsToLocalStorage(updated);
+            alert(`✏️ "${formData.name.trim()}" updated.`);
+          }
+          setCrudModalOpen(false);
+        };
+        const deleteProduct = (productId, productName) => {
+          if (!isAdminLoggedIn) {
+            promptAdminLogin();
+            return;
+          }
+          if (
+            window.confirm(
+              `⚠️ Permanently delete "${productName}"? This action cannot be undone.`,
+            )
+          ) {
+            const newProducts = products.filter((p) => p.id !== productId);
+            setProducts(newProducts);
+            saveProductsToLocalStorage(newProducts);
+            if (
+              selectedCategory !== "ALL" &&
+              newProducts.filter((p) => p.category === selectedCategory)
+                .length === 0
+            )
+              setSelectedCategory("ALL");
+            alert(`🗑️ "${productName}" permanently removed.`);
+          }
+        };
+
+        // ---------- CATEGORY MANAGEMENT ----------
+        const openCategoryManager = () => {
+          if (!isAdminLoggedIn) {
+            promptAdminLogin();
+            return;
+          }
+          setNewCategoryName("");
+          setCategoryError("");
+          setShowCategoryModal(true);
+        };
+        const addNewCategory = () => {
+          const newCat = newCategoryName.trim().toUpperCase();
+          if (!newCat) {
+            setCategoryError("Category name required");
+            return;
+          }
+          if (categories.includes(newCat)) {
+            setCategoryError("Category already exists!");
+            return;
+          }
+          const updatedCats = [...categories, newCat];
+          setCategories(updatedCats);
+          saveCategoriesToLocalStorage(updatedCats);
+          setNewCategoryName("");
+          setCategoryError("");
+          alert(`✅ Category "${newCat}" added.`);
+        };
+        const deleteCategory = (catToDelete) => {
+          if (catToDelete === "ALL") return;
+          if (!isAdminLoggedIn) return;
+          const productsUsing = products.filter(
+            (p) => p.category === catToDelete,
+          );
+          if (productsUsing.length > 0) {
+            if (
+              !window.confirm(
+                `⚠️ ${productsUsing.length} product(s) use "${catToDelete}". If you delete this category, those products will be moved to the first available category. Continue?`,
+              )
+            )
+              return;
+            const fallbackCat =
+              categories.find((c) => c !== catToDelete) ||
+              (categories.length > 1 ? categories[0] : "MEN BRACELET");
+            const updatedProducts = products.map((p) =>
+              p.category === catToDelete ? { ...p, category: fallbackCat } : p,
+            );
+            setProducts(updatedProducts);
+            saveProductsToLocalStorage(updatedProducts);
+          }
+          const newCats = categories.filter((c) => c !== catToDelete);
+          setCategories(newCats);
+          saveCategoriesToLocalStorage(newCats);
+          if (selectedCategory === catToDelete) setSelectedCategory("ALL");
+          alert(`🗑️ Category "${catToDelete}" deleted.`);
+        };
+
+        // ---------- CUSTOMER FLOW ----------
+        const openProductDetailModal = (product) => {
+          setSelectedProduct(product);
+          setDetailModalVisible(true);
+        };
+        const closeDetailModal = () => {
+          setDetailModalVisible(false);
+          setSelectedProduct(null);
+        };
+        const getWhatsAppLinkForProduct = () => {
+          if (!selectedProduct) return "#";
+          const message = `Hello MY Accessories! I would like to purchase *${selectedProduct.name}* (₨${selectedProduct.price.toLocaleString()}). Product: ${selectedProduct.description}. Please share availability and payment details.`;
+          return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+        };
+
+        // Category Filters Component
+        const CategoryFilters = () => (
+          <div className="category-scroll d-flex flex-column flex-lg-row flex-lg-wrap">
+            {categoryList.map((cat) => (
+              <button
+                key={cat}
+                className={`category-btn ${selectedCategory === cat ? "active" : ""}`}
+                onClick={() => setSelectedCategory(cat)}
+              >
+                {cat}
+              </button>
+            ))}
+            {isAdminLoggedIn && (
+              <button
+                onClick={openCategoryManager}
+                className="category-manager-btn"
+              >
+                <i className="bi bi-gear-fill me-1"></i> Manage Cats
+              </button>
             )}
           </div>
-        </div>
+        );
 
-        {/* ========== ENHANCED FOOTER with Phone & Email ========== */}
-        <footer className="py-5 mt-4" style={{ background: "#050505", borderTop: "1px solid #1f1f1f" }}>
-          <div className="container">
-            <div className="row gy-4">
-              {/* Brand & Tagline */}
-              <div className="col-lg-4 col-md-6">
-                <h3 className="navbar-brand-custom fs-2 mb-2">MY</h3>
-                <p className="text-secondary small mb-3">Premium men's accessories crafted for the modern icon. Personalized designs, unmatched quality.</p>
-                <div className="d-flex gap-3 mt-2">
-                  <a href="#" className="social-icon"><i className="bi bi-instagram"></i></a>
-                  <a href="#" className="social-icon"><i className="bi bi-facebook"></i></a>
-                  <a href="#" className="social-icon"><i className="bi bi-twitter-x"></i></a>
-                  <a href="#" className="social-icon"><i className="bi bi-tiktok"></i></a>
-                </div>
-              </div>
+        return (
+          <div style={{ backgroundColor: "#000000", minHeight: "100vh" }}>
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              accept="image/*"
+              onChange={handleImageUpload}
+            />
 
-              {/* Quick Links */}
-              <div className="col-lg-2 col-md-6">
-                <h5 className="gold-text fw-semibold mb-3" style={{ fontSize: "1rem" }}>EXPLORE</h5>
-                <ul className="list-unstyled">
-                  <li className="mb-2"><a href="#" className="footer-link small">New Arrivals</a></li>
-                  <li className="mb-2"><a href="#" className="footer-link small">Best Sellers</a></li>
-                  <li className="mb-2"><a href="#" className="footer-link small">Personalized Gifts</a></li>
-                  <li className="mb-2"><a href="#" className="footer-link small">Offers</a></li>
-                </ul>
-              </div>
-
-              {/* Contact Info - Phone & Email */}
-              <div className="col-lg-3 col-md-6">
-                <h5 className="gold-text fw-semibold mb-3" style={{ fontSize: "1rem" }}>CONTACT US</h5>
-                <ul className="list-unstyled">
-                  <li className="mb-3 d-flex align-items-center gap-2">
-                    <i className="bi bi-whatsapp text-success fs-6"></i>
-                    <a href="https://wa.me/923001234567" className="footer-link small">+92 300 1234567</a>
-                  </li>
-                  <li className="mb-3 d-flex align-items-center gap-2">
-                    <i className="bi bi-telephone-fill gold-text fs-6"></i>
-                    <span className="text-secondary small">+92 21 3456789</span>
-                  </li>
-                  <li className="mb-3 d-flex align-items-center gap-2">
-                    <i className="bi bi-envelope-fill gold-text fs-6"></i>
-                    <a href="mailto:info@amx.pk" className="footer-link small">info@amx.pk</a>
-                  </li>
-                  <li className="mb-2 d-flex align-items-center gap-2">
-                    <i className="bi bi-geo-alt-fill text-secondary fs-6"></i>
-                    <span className="text-secondary small">DHA Phase 8, Karachi, Pakistan</span>
-                  </li>
-                </ul>
-              </div>
-
-              {/* Business Hours */}
-              <div className="col-lg-3 col-md-6">
-                <h5 className="gold-text fw-semibold mb-3" style={{ fontSize: "1rem" }}>BUSINESS HOURS</h5>
-                <p className="text-secondary small mb-1">Mon - Fri: 11:00 AM – 9:00 PM</p>
-                <p className="text-secondary small mb-3">Sat - Sun: 2:00 PM – 10:00 PM</p>
-                <p className="text-muted small mt-2"><i className="bi bi-shield-check"></i> 100% Authentic</p>
-              </div>
-            </div>
-
-            <hr className="my-4" style={{ background: "#222" }} />
-            <div className="row align-items-center">
-              <div className="col-md-6 text-center text-md-start">
-                <p className="mb-0 text-secondary small">© 2026 MY ACCESSORIES STORE — Premium Men's Accessories | All rights reserved</p>
-              </div>
-              <div className="col-md-6 text-center text-md-end mt-2 mt-md-0">
-                <p className="mb-0 text-secondary small">
-                  <i className="bi bi-credit-card me-1"></i> Secure payments | 
-                  <i className="bi bi-truck ms-2 me-1"></i> Express shipping
-                </p>
-              </div>
-            </div>
-          </div>
-        </footer>
-
-        {/* WhatsApp Inquiry Modal - Appears when product is clicked */}
-        {modalVisible && selectedProduct && (
-          <div className="modal fade show d-block" tabIndex="-1" role="dialog" style={{ backgroundColor: "rgba(0,0,0,0.9)", backdropFilter: "blur(3px)" }}>
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content modal-content-custom">
-                <div className="modal-header border-bottom border-secondary">
-                  <h5 className="modal-title fw-bold gold-text">
-                    <i className="bi bi-gem me-2"></i> {selectedProduct.name}
-                  </h5>
-                  <button type="button" className="btn-close btn-close-white" onClick={closeModal} aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <div className="row g-3">
-                    <div className="col-12 text-center">
-                      <img 
-                        src={selectedProduct.image} 
-                        alt={selectedProduct.name} 
-                        className="img-fluid rounded-3 mb-2" 
-                        style={{ maxHeight: "180px", width: "auto", objectFit: "cover", borderRadius: "16px" }}
-                      />
-                    </div>
-                    <div className="col-12">
-                      <p className="text-white-50 mb-1"><strong>Category:</strong> {selectedProduct.category}</p>
-                      <p className="text-white-50 mb-1"><strong>Description:</strong> {selectedProduct.description}</p>
-                      <div className="d-flex justify-content-between align-items-center mt-2">
-                        <span className="price-tag fs-3">₨ {selectedProduct.price.toLocaleString()}</span>
-                        <span className="badge bg-dark border border-warning px-3 py-2">Limited stock</span>
-                      </div>
-                      <hr className="bg-secondary" />
-                      <div className="text-center mt-3">
-                        <p className="small text-secondary mb-2">📞 Get instant details & place order directly</p>
-                        <a 
-                          href={getWhatsAppLink()} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="btn btn-whatsapp w-100 d-flex align-items-center justify-content-center gap-2"
+            {/* Navbar - exact same structure as original */}
+            <nav
+              className="navbar navbar-expand-lg sticky-top"
+              style={{
+                background: "#010101",
+                borderBottom: "1px solid #222",
+                padding: "0.5rem 0",
+              }}
+            >
+              <div className="container">
+                <a
+                  className="navbar-brand d-flex align-items-center gap-2"
+                  href="#"
+                  style={{ textDecoration: "none" }}
+                >
+                  <span
+                    className="navbar-brand-custom display-6 fw-bold"
+                    style={{ fontSize: "1.9rem" }}
+                  >
+                    MY
+                  </span>
+                  <span
+                    style={{
+                      height: "30px",
+                      width: "1px",
+                      background: "#333",
+                      margin: "0 5px",
+                    }}
+                  ></span>
+                  <span
+                    className="text-white-50 fw-light"
+                    style={{ fontSize: "0.9rem", letterSpacing: "1px" }}
+                  >
+                    ACCESSORIES STORE
+                  </span>
+                </a>
+                <button
+                  className="navbar-toggler navbar-toggler-custom"
+                  type="button"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  style={{
+                    background: "#111",
+                    border: "1px solid #b8860b",
+                    borderRadius: "12px",
+                    padding: "8px 12px",
+                  }}
+                >
+                  <i
+                    className={`bi ${mobileMenuOpen ? "bi-x-lg" : "bi-grid-3x3-gap-fill"} gold-text`}
+                  ></i>
+                </button>
+                <div
+                  className={`collapse navbar-collapse ${mobileMenuOpen ? "show" : ""}`}
+                >
+                  <div className="nav-categories-wrapper ms-lg-4 flex-grow-1">
+                    <CategoryFilters />
+                  </div>
+                  <div className="d-flex gap-3 mt-3 mt-lg-0 ms-lg-3 align-items-center">
+                    {isAdminLoggedIn ? (
+                      <>
+                        <span className="verified-badge">
+                          <i className="bi bi-check-circle-fill me-1"></i>{" "}
+                          Admin: {adminEmail}
+                        </span>
+                        <button
+                          onClick={openAddProductModal}
+                          className="admin-btn"
                         >
-                          <i className="bi bi-whatsapp fs-5"></i> Chat on WhatsApp
-                        </a>
-                        <p className="mt-3 text-secondary" style={{ fontSize: "0.7rem" }}>Clicking will open WhatsApp with pre-filled product inquiry.</p>
-                      </div>
+                          <i className="bi bi-plus-circle me-1"></i> Add Product
+                        </button>
+                        <button
+                          onClick={handleLogout}
+                          className="admin-btn"
+                          style={{ borderColor: "#aaa", color: "#ccc" }}
+                        >
+                          <i className="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                      </>
+                    ) : (
+                      <button onClick={promptAdminLogin} className="admin-btn">
+                        <i className="bi bi-shield-lock me-1"></i> Admin Login
+                      </button>
+                    )}
+                    <button
+                      className="btn p-0 border-0 bg-transparent nav-link-custom"
+                      onClick={() => setShowSearch(!showSearch)}
+                      style={{ fontSize: "1.2rem" }}
+                    >
+                      <i className="bi bi-search"></i>
+                    </button>
+                    <a
+                      href="https://wa.me/923704931949"
+                      target="_blank"
+                      className="nav-link-custom"
+                      style={{ fontSize: "1.2rem", color: "#25D366" }}
+                    >
+                      <i className="bi bi-whatsapp"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </nav>
+
+            {showSearch && (
+              <div className="container mt-3">
+                <div className="input-group">
+                  <span className="input-group-text bg-dark text-warning border-secondary">
+                    <i className="bi bi-search"></i>
+                  </span>
+
+                  <input
+                    type="text"
+                    className="form-control form-control-custom"
+                    placeholder="Search by name, description or category..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+
+                  {searchTerm && (
+                    <button
+                      className="btn btn-outline-secondary"
+                      onClick={() => setSearchTerm("")}
+                    >
+                      Clear
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Admin Login Modal */}
+            {showAdminLoginModal && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.96)",
+                  backdropFilter: "blur(8px)",
+                  zIndex: 2050,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content modal-content-custom">
+                    <div className="modal-header border-bottom border-secondary">
+                      <h5 className="modal-title gold-text fw-bold">
+                        <i className="bi bi-shield-lock-fill me-2"></i>Verified
+                        Admin Access Required
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close btn-close-white"
+                        onClick={() => setShowAdminLoginModal(false)}
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <p className="text-secondary mb-3">
+                        Only verified email addresses can add, edit, or delete
+                        products. Please sign in to continue.
+                      </p>
+                      <form onSubmit={handleAdminLoginSubmit}>
+                        <label className="form-label small text-secondary">
+                          Verified Email *
+                        </label>
+                        <input
+                          type="email"
+                          className="form-control form-control-custom mb-3"
+                          placeholder="admin@myaccessories.com"
+                          value={loginEmailInput}
+                          onChange={(e) => setLoginEmailInput(e.target.value)}
+                          required
+                        />
+                        {loginError && (
+                          <div className="alert alert-danger py-2 small">
+                            {loginError}
+                          </div>
+                        )}
+                        <button
+                          type="submit"
+                          className="btn w-100"
+                          style={{
+                            background: "#d4af37",
+                            color: "#000",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          Verify & Login
+                        </button>
+                      </form>
+                      <hr className="bg-secondary mt-4" />
+                      <p className="text-center text-secondary small mt-3">
+                        Only verified emails: 
+                      </p>
                     </div>
                   </div>
                 </div>
-                <div className="modal-footer border-top border-secondary">
-                  <button type="button" className="btn btn-outline-secondary" onClick={closeModal}>Continue Shopping</button>
+              </div>
+            )}
+
+            {/* Hero Section */}
+            <div className="container mt-4 mb-2">
+              <div className="d-flex justify-content-between align-items-center flex-wrap">
+                <h2 className="section-title text-white fs-2 fw-bold mb-0">
+                  ⚡ LATEST COLLECTION
+                </h2>
+                <div className="d-flex gap-2 align-items-center">
+                  <p className="text-secondary small mb-0">
+                    {filteredProducts.length} premium items
+                  </p>
+                  {isAdminLoggedIn && (
+                    <span className="badge bg-dark border border-warning px-2 py-1 gold-text small">
+                      <i className="bi bi-pencil-square"></i> CRUD Active
+                    </span>
+                  )}
                 </div>
               </div>
+              <hr className="mt-2 mb-4" style={{ background: "#333" }} />
             </div>
-          </div>
-        )}
-      </div>
-    );
-  };
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-</script>
-</body>
+            {/* Product Grid */}
+            <div className="container pb-5">
+              <div className="row g-4">
+                {filteredProducts.length === 0 ? (
+                  <div className="col-12 text-center py-5">
+                    <i className="bi bi-emoji-frown fs-1 text-secondary"></i>
+                    <p className="mt-3 text-secondary">
+                      No items in this category.
+                    </p>
+                    {isAdminLoggedIn && (
+                      <button
+                        onClick={openAddProductModal}
+                        className="admin-btn mt-2"
+                        style={{ background: "#d4af37", color: "#000" }}
+                      >
+                        <i className="bi bi-plus-lg"></i> Add Your First Product
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  filteredProducts.map((product) => (
+                    <div
+                      key={product.id}
+                      className="col-12 col-sm-6 col-md-4 col-lg-3"
+                    >
+                      <div className="card product-card card-bg-dark h-100 border-0 rounded-4 position-relative">
+                        {isAdminLoggedIn && (
+                          <div className="position-absolute top-0 end-0 p-2 d-flex gap-2 z-1">
+                            <div
+                              className="crud-icon bg-dark rounded-circle p-1 px-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openEditProductModal(product);
+                              }}
+                              style={{
+                                background: "#000000aa",
+                                backdropFilter: "blur(4px)",
+                              }}
+                            >
+                              <i className="bi bi-pencil-square text-warning small"></i>
+                            </div>
+                            <div
+                              className="crud-icon bg-dark rounded-circle p-1 px-2"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteProduct(product.id, product.name);
+                              }}
+                              style={{
+                                background: "#000000aa",
+                                backdropFilter: "blur(4px)",
+                              }}
+                            >
+                              <i className="bi bi-trash3 text-danger small"></i>
+                            </div>
+                          </div>
+                        )}
+                        <img
+                          src={product.image}
+                          className="card-img-top img-placeholder rounded-top-4"
+                          alt={product.name}
+                          loading="lazy"
+                          style={{
+                            objectFit: "cover",
+                            height: "220px",
+                            cursor: "pointer",
+                          }}
+                          onClick={() => openProductDetailModal(product)}
+                        />
+                        <div
+                          className="card-body d-flex flex-column"
+                          onClick={() => openProductDetailModal(product)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <div className="d-flex justify-content-between align-items-start">
+                            <span className="badge bg-dark badge-cat gold-text border border-secondary px-2 py-1 mb-2">
+                              {product.category}
+                            </span>
+                          </div>
+                          <h5 className="card-title text-white mt-1">
+                            {product.name}
+                          </h5>
+                          <p className="card-text text-secondary small mb-2">
+                            {product.description.substring(0, 55)}...
+                          </p>
+                          <div className="mt-auto d-flex justify-content-between align-items-center pt-2">
+                            <span className="price-tag fw-bold">
+                              ₨ {product.price.toLocaleString()}
+                            </span>
+                            <i className="bi bi-eye gold-text fs-6"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+
+            {/* Floating Add Button */}
+            {isAdminLoggedIn && (
+              <button
+                onClick={openAddProductModal}
+                className="floating-add-btn"
+              >
+                <i className="bi bi-plus-circle-fill me-2"></i> Add New Product
+              </button>
+            )}
+
+            {/* Product Detail Modal */}
+            {detailModalVisible && selectedProduct && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.95)",
+                  backdropFilter: "blur(5px)",
+                  zIndex: 1050,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered modal-lg">
+                  <div className="modal-content modal-content-custom">
+                    <div className="modal-header border-bottom border-secondary">
+                      <h5 className="modal-title fw-bold gold-text">
+                        <i className="bi bi-gem me-2"></i>{" "}
+                        {selectedProduct.name}
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close btn-close-white"
+                        onClick={closeDetailModal}
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row g-4">
+                        <div className="col-md-6 text-center">
+                          <img
+                            src={selectedProduct.image}
+                            alt={selectedProduct.name}
+                            className="img-fluid rounded-3"
+                            style={{
+                              maxHeight: "260px",
+                              objectFit: "cover",
+                              width: "100%",
+                              borderRadius: "20px",
+                            }}
+                          />
+                        </div>
+                        <div className="col-md-6">
+                          <p className="text-secondary mb-2">
+                            <i className="bi bi-tag-fill gold-text me-1"></i>{" "}
+                            <strong>Category:</strong>{" "}
+                            {selectedProduct.category}
+                          </p>
+                          <p className="text-white-50 mb-3">
+                            <strong>Description:</strong>{" "}
+                            {selectedProduct.description}
+                          </p>
+                          <div
+                            className="d-flex justify-content-between align-items-center bg-dark p-3 rounded-3 mb-3"
+                            style={{ background: "#1a1a1a" }}
+                          >
+                            <span className="text-secondary">Price:</span>
+                            <span className="price-tag fs-2">
+                              ₨ {selectedProduct.price.toLocaleString()}
+                            </span>
+                          </div>
+                          <hr className="bg-secondary" />
+                          <div className="text-center mt-3">
+                            <p className="small text-secondary mb-3">
+                              📦 Ready to order? Click below to chat on WhatsApp
+                              and confirm your purchase. Cash on delivery!
+                            </p>
+                            <a
+                              href={getWhatsAppLinkForProduct()}
+                              target="_blank"
+                              className="btn btn-whatsapp w-100 d-flex align-items-center justify-content-center gap-2 py-3"
+                            >
+                              <i className="bi bi-whatsapp fs-4"></i> Order via
+                              WhatsApp
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-footer border-top border-secondary">
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary"
+                        onClick={closeDetailModal}
+                      >
+                        Continue Shopping
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* CRUD Modal with Image Gallery Upload */}
+            {crudModalOpen && isAdminLoggedIn && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.95)",
+                  backdropFilter: "blur(5px)",
+                  zIndex: 1060,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered modal-lg">
+                  <div className="modal-content modal-content-custom">
+                    <div className="modal-header border-bottom border-secondary">
+                      <h5 className="modal-title gold-text fw-bold">
+                        <i
+                          className={`bi ${isAdding ? "bi-plus-circle-fill" : "bi-pencil-square"} me-2`}
+                        ></i>
+                        {isAdding ? "Add New Product" : "Edit Product"}
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close btn-close-white"
+                        onClick={() => setCrudModalOpen(false)}
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="row g-3">
+                        <div className="col-md-6">
+                          <label className="form-label small text-secondary fw-semibold">
+                            Product Name *
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-custom"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleFormChange}
+                            placeholder="e.g., Titanium Ring"
+                          />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label small text-secondary fw-semibold">
+                            Category *
+                          </label>
+                          <select
+                            className="form-select form-control-custom"
+                            name="category"
+                            value={formData.category}
+                            onChange={handleFormChange}
+                          >
+                            {categories.map((cat) => (
+                              <option key={cat} value={cat}>
+                                {cat}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label small text-secondary fw-semibold">
+                            Price (PKR) *
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control form-control-custom"
+                            name="price"
+                            value={formData.price}
+                            onChange={handleFormChange}
+                            placeholder="e.g., 2500"
+                          />
+                        </div>
+                        <div className="col-md-6">
+                          <label className="form-label small text-secondary fw-semibold">
+                            Product Image *
+                          </label>
+                          <div
+                            className="upload-area d-flex flex-column align-items-center justify-content-center gap-2"
+                            onClick={triggerGallery}
+                            style={{ cursor: "pointer" }}
+                          >
+                            <i className="bi bi-images fs-1 gold-text"></i>
+                            <span className="text-secondary small">
+                              Click to browse from gallery
+                            </span>
+                            <img
+                              src={formData.image}
+                              alt="Preview"
+                              className="image-preview-circle mt-1"
+                              style={{
+                                width: "100px",
+                                height: "100px",
+                                objectFit: "cover",
+                                borderRadius: "12px",
+                                border: "1px solid #d4af37",
+                              }}
+                              onError={(e) =>
+                                (e.target.src =
+                                  "https://picsum.photos/id/1/100/100")
+                              }
+                            />
+                            {uploadingImage && (
+                              <div
+                                className="spinner-border spinner-border-sm text-warning mt-2"
+                                role="status"
+                              ></div>
+                            )}
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <label className="form-label small text-secondary fw-semibold">
+                            Description *
+                          </label>
+                          <textarea
+                            className="form-control form-control-custom"
+                            rows="3"
+                            name="description"
+                            value={formData.description}
+                            onChange={handleFormChange}
+                            placeholder="Detailed product description..."
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-footer border-top border-secondary">
+                      <button
+                        className="btn btn-outline-secondary"
+                        onClick={() => setCrudModalOpen(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="btn"
+                        style={{
+                          background: "#d4af37",
+                          color: "#000",
+                          fontWeight: "bold",
+                        }}
+                        onClick={saveProduct}
+                      >
+                        {isAdding ? (
+                          <>
+                            <i className="bi bi-check-lg me-1"></i> Create
+                            Product
+                          </>
+                        ) : (
+                          <>
+                            <i className="bi bi-save me-1"></i> Save Changes
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Category Management Modal */}
+            {showCategoryModal && isAdminLoggedIn && (
+              <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                style={{
+                  backgroundColor: "rgba(0,0,0,0.96)",
+                  backdropFilter: "blur(8px)",
+                  zIndex: 2100,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div className="modal-dialog modal-dialog-centered">
+                  <div className="modal-content modal-content-custom">
+                    <div className="modal-header border-bottom border-secondary">
+                      <h5 className="modal-title gold-text fw-bold">
+                        <i className="bi bi-tags me-2"></i>Manage Categories
+                      </h5>
+                      <button
+                        type="button"
+                        className="btn-close btn-close-white"
+                        onClick={() => setShowCategoryModal(false)}
+                      ></button>
+                    </div>
+                    <div className="modal-body">
+                      <div className="mb-4">
+                        <label className="form-label small text-secondary fw-semibold">
+                          Add New Category
+                        </label>
+                        <div className="d-flex gap-2">
+                          <input
+                            type="text"
+                            className="form-control form-control-custom"
+                            placeholder="e.g., NECKLACE, WATCH, CHAIN"
+                            value={newCategoryName}
+                            onChange={(e) => setNewCategoryName(e.target.value)}
+                          />
+                          <button
+                            className="btn"
+                            style={{
+                              background: "#d4af37",
+                              color: "#000",
+                              fontWeight: "bold",
+                            }}
+                            onClick={addNewCategory}
+                          >
+                            Add
+                          </button>
+                        </div>
+                        {categoryError && (
+                          <div className="text-danger small mt-1">
+                            {categoryError}
+                          </div>
+                        )}
+                      </div>
+                      <label className="form-label small text-secondary fw-semibold">
+                        Current Categories
+                      </label>
+                      <div className="d-flex flex-wrap gap-2 mt-2">
+                        {categories.map((cat) => (
+                          <div key={cat} className="category-item-badge">
+                            <span>{cat}</span>
+                            <i
+                              className="bi bi-trash3 delete-cat-icon ms-2"
+                              onClick={() => deleteCategory(cat)}
+                            ></i>
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-secondary small mt-3">
+                        <i className="bi bi-info-circle"></i> Deleting a
+                        category will reassign its products to first available
+                        category.
+                      </p>
+                    </div>
+                    <div className="modal-footer border-top border-secondary">
+                      <button
+                        className="btn btn-outline-secondary"
+                        onClick={() => setShowCategoryModal(false)}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ORIGINAL FOOTER - Restored exactly as in first code */}
+            <footer
+              className="py-5 mt-4"
+              style={{ background: "#050505", borderTop: "1px solid #1f1f1f" }}
+            >
+              <div className="container">
+                <div className="row gy-4">
+                  <div className="col-lg-4 col-md-6">
+                    <h3 className="navbar-brand-custom fs-2 mb-2">MY</h3>
+                    <p className="text-secondary small mb-3">
+                      Premium men's accessories crafted for the modern icon.
+                      Personalized designs, unmatched quality.
+                    </p>
+                    <div className="d-flex gap-3 mt-2">
+                      <a href="#" className="social-icon">
+                        <i className="bi bi-instagram"></i>
+                      </a>
+                      <a href="#" className="social-icon">
+                        <i className="bi bi-facebook"></i>
+                      </a>
+                      <a href="#" className="social-icon">
+                        <i className="bi bi-twitter-x"></i>
+                      </a>
+                      <a href="#" className="social-icon">
+                        <i className="bi bi-tiktok"></i>
+                      </a>
+                    </div>
+                  </div>
+                  <div className="col-lg-2 col-md-6">
+                    <h5
+                      className="gold-text fw-semibold mb-3"
+                      style={{ fontSize: "1rem" }}
+                    >
+                      EXPLORE
+                    </h5>
+                    <ul className="list-unstyled">
+                      <li className="mb-2">
+                        <a href="#" className="footer-link small">
+                          New Arrivals
+                        </a>
+                      </li>
+                      <li className="mb-2">
+                        <a href="#" className="footer-link small">
+                          Best Sellers
+                        </a>
+                      </li>
+                      <li className="mb-2">
+                        <a href="#" className="footer-link small">
+                          Personalized Gifts
+                        </a>
+                      </li>
+                      <li className="mb-2">
+                        <a href="#" className="footer-link small">
+                          Offers
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-lg-3 col-md-6">
+                    <h5
+                      className="gold-text fw-semibold mb-3"
+                      style={{ fontSize: "1rem" }}
+                    >
+                      CONTACT US
+                    </h5>
+                    <ul className="list-unstyled">
+                      <li className="mb-3 d-flex align-items-center gap-2">
+                        <i className="bi bi-whatsapp text-success fs-6"></i>
+                        <a
+                          href="https://wa.me/923704931949"
+                          className="footer-link small"
+                        >
+                          +92 370 4931949
+                        </a>
+                      </li>
+                      <li className="mb-3 d-flex align-items-center gap-2">
+                        <i className="bi bi-telephone-fill gold-text fs-6"></i>
+                        <span className="text-secondary small">
+                          +92 370 4931949
+                        </span>
+                      </li>
+                      <li className="mb-3 d-flex align-items-center gap-2">
+                        <i className="bi bi-envelope-fill gold-text fs-6"></i>
+                        <a
+                          href="mailto:shayanirshad123s@gmail.com"
+                          className="footer-link small"
+                        >
+                          shayanirshad123s@gmail.com
+                        </a>
+                      </li>
+                      <li className="mb-2 d-flex align-items-center gap-2">
+                        <i className="bi bi-geo-alt-fill text-secondary fs-6"></i>
+                        <span className="text-secondary small">
+                          Macca Colony Gulberg III Lahore, Pakistan.
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="col-lg-3 col-md-6">
+                    <h5
+                      className="gold-text fw-semibold mb-3"
+                      style={{ fontSize: "1rem" }}
+                    >
+                      BUSINESS HOURS
+                    </h5>
+                    <p className="text-secondary small mb-1">
+                      Mon - Fri: 24 hours (Online Support)
+                    </p>
+                    <p className="text-secondary small mb-3">
+                      Sat - Sun: 2:00 PM – 10:00 PM
+                    </p>
+                    <p className="text-muted small mt-2">
+                      <i className="bi bi-shield-check"></i> 100% Authentic
+                    </p>
+                  </div>
+                </div>
+                <hr className="my-4" style={{ background: "#222" }} />
+                <div className="row align-items-center">
+                  <div className="col-md-6 text-center text-md-start">
+                    <p className="mb-0 text-secondary small">
+                      © 2026 MY ACCESSORIES STORE —  Dynamic Categories
+                    </p>
+                  </div>
+                  <div className="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                    <p className="mb-0 text-secondary small">
+                      <i className="bi bi-credit-card me-1"></i> Secure payments
+                      | <i className="bi bi-truck ms-2 me-1"></i> Express
+                      shipping
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </footer>
+          </div>
+        );
+      };
+ 
+      ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+  </body>
 </html>
