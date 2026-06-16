@@ -16,16 +16,21 @@
       
       /* Desktop: horizontal scroll */
       @media (min-width: 992px) {
-        .category-scroll {
-          overflow-x: auto;
-          overflow-y: hidden;
-          scrollbar-width: thin;
-          -webkit-overflow-scrolling: touch;
-          display: flex;
-          flex-direction: row;
-          flex-wrap: nowrap;
-          white-space: nowrap;
-        }
+  .category-scroll {
+    overflow-x: hidden;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    white-space: normal;
+    gap: 8px;
+  }
+
+  .category-btn {
+    display: inline-block;
+    white-space: nowrap;
+  }
+}
         .category-scroll::-webkit-scrollbar {
           height: 4px;
         }
@@ -41,7 +46,7 @@
           display: inline-block;
           white-space: nowrap;
         }
-      }
+      
       
       /* Mobile/Tablet: vertical scroll (columns) */
       @media (max-width: 991px) {
@@ -86,7 +91,7 @@
       .btn-whatsapp { background-color: #25d366; border: none; font-weight: 600; padding: 12px 0; border-radius: 50px; color: #000; transition: 0.2s; }
       .btn-whatsapp:hover { background-color: #20b859; transform: scale(1.02); color: #000; box-shadow: 0 6px 14px rgba(37, 211, 102, 0.3); }
       footer { background: #030303; border-top: 1px solid #222; }
-      .img-placeholder { background: #1e1e1e; object-fit: cover; width: 100%; height: 220px; transition: 0.2s; }
+      .img-placeholder { background: #1e1e1e; object-fit: contain; width: 100%; height: 220px; transition: 0.2s; }
       .badge-cat { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); font-size: 0.7rem; padding: 4px 10px; border-radius: 20px; }
       .card-title { font-weight: 700; font-size: 1.1rem; }
       hr { opacity: 0.3; }
@@ -288,28 +293,43 @@
         const fileInputRef = React.useRef(null);
         const triggerGallery = () => fileInputRef.current?.click();
         const handleImageUpload = async (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          if (!file.type.startsWith("image/")) { 
-            alert("❌ Please select an image file"); 
-            return; 
-          }
-          if (file.size > 2 * 1024 * 1024) { 
-            alert("❌ Max size 2MB"); 
-            return; 
-          }
-          setUploadingImage(true);
-          try {
-            const base64Image = await fileToBase64(file);
-            setFormData(prev => ({ ...prev, image: base64Image }));
-            setSelectedImageFile(file);
-          } catch (err) { 
-            alert("Upload failed: " + err.message); 
-          }
-          finally { 
-            setUploadingImage(false); 
-          }
-        };
+  const file = e.target.files[0];
+
+  if (!file) return;
+
+  if (!file.type.startsWith("image/")) {
+    alert("❌ Please select an image file");
+    return;
+  }
+
+  setUploadingImage(true);
+
+  try {
+    const compressedFile = await imageCompression(file, {
+      maxSizeMB: 0.3,
+      maxWidthOrHeight: 1000,
+      useWebWorker: true,
+    });
+
+    const base64Image = await fileToBase64(compressedFile);
+
+    setFormData(prev => ({
+      ...prev,
+      image: base64Image
+    }));
+
+    setSelectedImageFile(compressedFile);
+
+    alert(
+      `✅ Image compressed from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`
+    );
+
+  } catch (err) {
+    alert("Upload failed: " + err.message);
+  } finally {
+    setUploadingImage(false);
+  }
+};
         
         // Product CRUD
         const openAddProductModal = () => {
@@ -813,6 +833,9 @@
       };
       
       ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
   </body>
-</html>
+</html> 
