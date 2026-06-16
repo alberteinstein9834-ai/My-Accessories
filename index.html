@@ -121,7 +121,7 @@
       .verified-badge { background: #1f3a1f; color: #2ecc71; border-radius: 30px; padding: 4px 12px; font-size: 0.7rem; font-weight: 600; margin-left: 12px; }
       .upload-area { border: 2px dashed #444; border-radius: 16px; padding: 12px; text-align: center; transition: 0.2s; cursor: pointer; background: #111; }
       .upload-area:hover { border-color: #d4af37; background: #1a1a1a; }
-      .image-preview-circle { width: 80px; height: 80px; object-fit: cover; border-radius: 16px; border: 2px solid #d4af37; background: #1a1a1a; }
+      .image-preview-circle { width: 80px; height: 80px; object-fit: contain; border-radius: 16px; border: 2px solid #d4af37; background: #1a1a1a; }
       .category-manager-btn { background: #2a2a2a; border: none; color: #d4af37; border-radius: 40px; padding: 4px 12px; font-size: 0.7rem; margin-left: 8px; transition: 0.2s; }
       .category-manager-btn:hover { background: #d4af37; color: #000; }
       .category-item-badge { background: #1e1e1e; border: 1px solid #444; border-radius: 40px; padding: 5px 12px; display: inline-flex; align-items: center; gap: 8px; margin: 4px; }
@@ -581,7 +581,7 @@
                       <p className="text-secondary mb-3">Only verified email addresses can add, edit, or delete products.</p>
                       <form onSubmit={handleAdminLoginSubmit}>
                         <label className="form-label small text-secondary">Verified Email *</label>
-                        <input type="email" className="form-control form-control-custom mb-3" placeholder="shayanirshad123s@gmail.com" value={loginEmailInput} onChange={(e) => setLoginEmailInput(e.target.value)} required />
+                        <input type="email" className="form-control form-control-custom mb-3" value={loginEmailInput} onChange={(e) => setLoginEmailInput(e.target.value)} required />
                         {loginError && <div className="alert alert-danger py-2 small">{loginError}</div>}
                         <button type="submit" className="btn w-100" style={{ background: "#d4af37", color: "#000", fontWeight: "bold" }}>Verify & Login</button>
                       </form>
@@ -628,7 +628,7 @@
                             </div>
                           </div>
                         )}
-                        <img src={product.image} className="card-img-top img-placeholder rounded-top-4" alt={product.name} loading="lazy" style={{ objectFit: "cover", height: "220px", cursor: "pointer" }} onClick={() => openProductDetailModal(product)} />
+                        <img src={product.image} className="card-img-top img-placeholder rounded-top-4" alt={product.name} loading="lazy" style={{ objectFit: "contain",backgroundColor: "#fff", height: "220px", cursor: "pointer" }} onClick={() => openProductDetailModal(product)} />
                         <div className="card-body d-flex flex-column" onClick={() => openProductDetailModal(product)} style={{ cursor: "pointer" }}>
                           <span className="badge bg-dark badge-cat gold-text border border-secondary px-2 py-1 mb-2">{product.category}</span>
                           <h5 className="card-title text-white mt-1">{product.name}</h5>
@@ -664,7 +664,7 @@
                     <div className="modal-body">
                       <div className="row g-4">
                         <div className="col-md-6 text-center">
-                          <img src={selectedProduct.image} alt={selectedProduct.name} className="img-fluid rounded-3" style={{ maxHeight: "260px", objectFit: "cover", width: "100%", borderRadius: "20px" }} />
+                          <img src={selectedProduct.image} alt={selectedProduct.name} className="img-fluid rounded-3" style={{ maxHeight: "260px", objectFit: "contain", width: "100%", borderRadius: "20px" }} />
                         </div>
                         <div className="col-md-6">
                           <p className="text-secondary mb-2"><i className="bi bi-tag-fill gold-text me-1"></i> <strong>Category:</strong> {selectedProduct.category}</p>
@@ -719,7 +719,7 @@
                           <div className="upload-area d-flex flex-column align-items-center justify-content-center gap-2" onClick={triggerGallery} style={{ cursor: "pointer" }}>
                             <i className="bi bi-images fs-1 gold-text"></i>
                             <span className="text-secondary small">Click to browse from gallery</span>
-                            <img src={formData.image} alt="Preview" className="image-preview-circle mt-1" style={{ width: "100px", height: "100px", objectFit: "cover", borderRadius: "12px", border: "1px solid #d4af37" }} onError={(e) => e.target.src = "https://picsum.photos/id/1/100/100"} />
+                            <img src={formData.image} alt="Preview" className="image-preview-circle mt-1" style={{ width: "100px", height: "100px", objectFit: "contain", borderRadius: "12px", border: "1px solid #d4af37" }} onError={(e) => e.target.src = "https://picsum.photos/id/1/100/100"} />
                             {uploadingImage && <div className="spinner-border spinner-border-sm text-warning mt-2" role="status"></div>}
                           </div>
                           <small className="text-secondary d-block mt-1">✓ Image stored in Firebase (base64 format)</small>
@@ -806,7 +806,7 @@
                     <ul className="list-unstyled">
                       <li className="mb-3 d-flex align-items-center gap-2"><i className="bi bi-whatsapp text-success"></i><a href="https://wa.me/923704931949" className="footer-link small">+92 370 4931949</a></li>
                       <li className="mb-3 d-flex align-items-center gap-2"><i className="bi bi-telephone-fill gold-text"></i><span className="text-secondary small">+92 370 4931949</span></li>
-                      <li className="mb-3 d-flex align-items-center gap-2"><i className="bi bi-envelope-fill gold-text"></i><a href="mailto:shayanirshad123s@gmail.com" className="footer-link small">shayanirshad123s@gmail.com</a></li>
+                      
                       <li className="mb-2 d-flex align-items-center gap-2"><i className="bi bi-geo-alt-fill text-secondary"></i><span className="text-secondary small">Macca Colony Gulberg III Lahore, Pakistan.</span></li>
                     </ul>
                   </div>
