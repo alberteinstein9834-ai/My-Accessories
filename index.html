@@ -163,14 +163,30 @@
       const categoriesCollection = db.collection("categories");
       
       // Helper: Convert file to Base64
-      const fileToBase64 = (file) => {
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = () => resolve(reader.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      };
+      
+
+      const uploadToCloudinary = async (file) => {
+  const formData = new FormData();
+
+  formData.append("file", file);
+  formData.append("upload_preset", "accessories_upload");
+
+  const response = await fetch(
+    "https://api.cloudinary.com/v1_1/dckrrvlye/image/upload",
+    {
+      method: "POST",
+      body: formData
+    }
+  );
+
+  const data = await response.json();
+
+  if (!data.secure_url) {
+    throw new Error("Cloudinary upload failed");
+  }
+
+  return data.secure_url;
+};
       
       // Default data
       const DEFAULT_CATEGORIES = ["MEN BRACELET", "WOMEN BRACELET", "RINGS"];
@@ -203,15 +219,21 @@
       let VERIFIED_EMAILS = JSON.parse(localStorage.getItem("verified_emails")) || ["shayanirshad123s@gmail.com"];
       
       const App = () => {
-        const [products, setProducts] = React.useState([]);
-        const [categories, setCategories] = React.useState([]);
+        const cachedProducts =
+  JSON.parse(localStorage.getItem("products_cache")) || [];
+
+const [products, setProducts] = React.useState(cachedProducts);
+        const cachedCategories =
+  JSON.parse(localStorage.getItem("categories_cache")) || [];
+
+const [categories, setCategories] = React.useState(cachedCategories);
         const [selectedCategory, setSelectedCategory] = React.useState("ALL");
         const [detailModalVisible, setDetailModalVisible] = React.useState(false);
         const [selectedProduct, setSelectedProduct] = React.useState(null);
         const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
         const [searchTerm, setSearchTerm] = React.useState("");
         const [showSearch, setShowSearch] = React.useState(false);
-        const [loading, setLoading] = React.useState(true);
+        const [loading, setLoading] = React.useState(cachedProducts.length === 0);
         
         // Admin states
         const [isAdminLoggedIn, setIsAdminLoggedIn] = React.useState(false);
@@ -239,14 +261,29 @@
         React.useEffect(() => {
           const unsubscribeCats = categoriesCollection.orderBy("name").onSnapshot((snapshot) => {
             const catsList = snapshot.docs.map(doc => doc.data().name);
-            if (catsList.length === 0) setCategories([]);
-            else setCategories(catsList);
+
+setCategories(catsList);
+
+localStorage.setItem(
+  "categories_cache",
+  JSON.stringify(catsList)
+);
           });
           
           const unsubscribeProds = productsCollection.orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-            const prodList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setProducts(prodList);
-            setLoading(false);
+            const prodList = snapshot.docs.map(doc => ({
+  id: doc.id,
+  ...doc.data()
+}));
+
+setProducts(prodList);
+
+localStorage.setItem(
+  "products_cache",
+  JSON.stringify(prodList)
+);
+
+setLoading(false);
           });
           
           return () => {
@@ -312,18 +349,16 @@
       useWebWorker: true,
     });
 
-    const base64Image = await fileToBase64(compressedFile);
+    const imageUrl = await uploadToCloudinary(compressedFile);
 
-    setFormData(prev => ({
-      ...prev,
-      image: base64Image
-    }));
+setFormData(prev => ({
+  ...prev,
+  image: imageUrl
+}));
 
     setSelectedImageFile(compressedFile);
 
-    alert(
-      `✅ Image compressed from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`
-    );
+    
 
   } catch (err) {
     alert("Upload failed: " + err.message);
@@ -808,7 +843,7 @@
                       <li className="mb-3 d-flex align-items-center gap-2"><i className="bi bi-whatsapp text-success"></i><a href="https://wa.me/923704931949" className="footer-link small">+92 370 4931949</a></li>
                       <li className="mb-3 d-flex align-items-center gap-2"><i className="bi bi-telephone-fill gold-text"></i><span className="text-secondary small">+92 370 4931949</span></li>
                       
-                      <li className="mb-2 d-flex align-items-center gap-2"><i className="bi bi-geo-alt-fill text-secondary"></i><span className="text-secondary small">Macca Colony Gulberg III Lahore, Pakistan.</span></li>
+                      <li className="mb-2 d-flex align-items-center gap-2"><i className="bi bi-geo-alt-fill text-secondary"></i><span className="text-secondary small"> Pakistan, Lahore.</span></li>
                     </ul>
                   </div>
                   <div className="col-lg-3 col-md-6">
@@ -838,5 +873,8 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+   
   </body>
 </html> 
+
+
